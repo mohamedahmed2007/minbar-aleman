@@ -1,39 +1,84 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>حاسبة العمر</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منبر الإيمان | للقرآن الكريم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
-    <div class="top-bar">
-        <button class="mode-toggle" onclick="toggleMode()">🌙</button>
-    </div>
+    <header class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <i class="fas fa-mosque"></i>
+                <span>منبر الإيمان</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="surahSearch" placeholder="ابحث عن سورة...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="nav-actions">
+                <button id="themeToggle"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
 
-    <h1>🎂 حاسبة العمر</h1>
+    <main class="main-wrapper container">
+        <aside class="sidebar">
+            <div class="sidebar-label">فهرس السور</div>
+            <div id="surahList" class="surah-list">
+                <div class="loading-spin"><i class="fas fa-spinner fa-spin"></i></div>
+            </div>
+        </aside>
 
-    <label for="birthDate">اختر تاريخ ميلادك</label>
-    <input type="date" id="birthDate">
+        <section class="reader-section">
+            <div class="reader-tools">
+                <h2 id="activeSurahTitle">اختر سورة</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="setView('reading')">قراءة</button>
+                    <button class="tab-btn" onclick="setView('tajweed')">تجويد</button>
+                    <button class="tab-btn" onclick="setView('tafsir')">تفسير</button>
+                </div>
+            </div>
 
-    <button onclick="calculateAge()">احسب عمري</button>
+            <div id="mainDisplay" class="display-area Amiri">
+                <div class="welcome-box">
+                    <i class="fas fa-quran"></i>
+                    <h2>مرحباً بكم في منبر الإيمان</h2>
+                    <p>تصميم وبرمجة: الفاروق عمر & محمد أحمد</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <div class="result" id="result"></div>
-
-    <button class="share-btn" onclick="shareAge()">🔗 مشاركة</button>
-
-    <div class="contact">
-        📞 للتواصل: <a href="tel:01116604156">01116604156</a>
-    </div>
-
-    <footer>
-        Designed & Developed by <strong>Mohamed Ahmed</strong>
+    <footer class="audio-footer">
+        <div class="player-container container">
+            <div class="track-info">
+                <strong id="trackSurah">منبر الإيمان</strong>
+                <span id="trackReader">مشاري العفاسي</span>
+            </div>
+            <div class="controls">
+                <audio id="quranAudio"></audio>
+                <button id="playPauseBtn" class="main-play"><i class="fas fa-play"></i></button>
+                <input type="range" id="audioProgress" value="0">
+                <span id="timeDisplay">00:00</span>
+            </div>
+        </div>
     </footer>
-</div>
 
-<script src="script.js"></script>
+    <div class="ai-trigger" onclick="toggleChat()"><i class="fas fa-robot"></i></div>
+    <div class="ai-panel" id="aiPanel">
+        <div class="ai-header">مساعد منبر الإيمان <i class="fas fa-times" onclick="toggleChat()"></i></div>
+        <div id="chatBox" class="chat-box"></div>
+        <div class="chat-input">
+            <input type="text" id="aiInput" placeholder="اسأل عن آية أو حكم...">
+            <button onclick="askAI()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-</html>
+</html><meta name="viewport" content="width=device-width, initial-scale=1.0">
