@@ -2,210 +2,292 @@
 <html lang="ar" dir="rtl" id="mainHtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منبر الإيمان - المنصة القرآنية الشاملة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>منبر الإيمان - تصميم وبرمجة الفاروق عمر</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { darkMode: 'class' }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script>tailwind.config = { darkMode: 'class' }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; transition: 0.3s; scroll-behavior: smooth; }
-        .quran-font { font-family: 'Amiri', serif; }
-        .header-gradient { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
-        .last-read { border: 2px solid #f59e0b !important; background: #fffbeb; border-radius: 8px; padding: 2px; }
-        .dark .last-read { background: #451a03; border-color: #fbbf24 !important; }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #fdfaf3; 
+            background-image: url("https://www.transparenttextures.com/patterns/arabesque.png");
+            background-attachment: fixed;
+            transition: 0.5s; 
+            overflow-x: hidden;
+        }
+        .dark body { 
+            background-color: #020617; 
+            background-image: url("https://www.transparenttextures.com/patterns/black-linen.png"), url("https://www.transparenttextures.com/patterns/arabesque.png");
+            background-blend-mode: overlay;
+        }
+
+        .quran-font { font-family: 'Amiri', serif; word-wrap: break-word; }
+        
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(15px); 
+            border-radius: 2rem; 
+            border: 1px solid rgba(217, 119, 6, 0.2); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .dark .glass-card { 
+            background: rgba(15, 23, 42, 0.9); 
+            border: 1px solid rgba(251, 191, 36, 0.1); 
+        }
+        
+        @media (min-width: 768px) { .glass-card { border-radius: 3rem; } }
+
+        .nav-card.active { 
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%); 
+            color: white !important; 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3); 
+        }
+        
+        #scrollProgress { position: fixed; top: 0; right: 0; height: 4px; background: linear-gradient(to left, #d97706, #fcd34d); z-index: 1000; transition: width 0.2s; }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .ayah-highlight:active { background: rgba(217, 119, 6, 0.15); border-radius: 10px; }
+        
+        /* تحسينات للهواتف */
+        @media (max-width: 640px) {
+            .quran-container { font-size: 28px !important; line-height: 3.5rem !important; }
+            header h1 { font-size: 1.25rem; }
+            .nav-btn { padding: 0.75rem 1.5rem !important; font-size: 0.7rem !important; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen pb-32">
+<body class="dark:text-slate-200 min-h-screen pb-48 text-slate-900">
 
-    <header class="header-gradient text-white shadow-xl sticky top-0 z-50 px-4 py-4">
+    <div id="scrollProgress"></div>
+
+    <div id="loginOverlay" class="fixed inset-0 z-[300] bg-black/90 backdrop-blur-xl flex items-center justify-center hidden p-4">
+        <div class="glass-card max-w-sm w-full p-8 text-center border-t-8 border-amber-600 bg-white dark:bg-slate-900 shadow-2xl">
+            <div class="text-5xl mb-4">🕌</div>
+            <h2 class="text-2xl font-black text-emerald-900 dark:text-amber-500 mb-2">مرحباً بك</h2>
+            <p class="text-[10px] opacity-60 mb-6 font-bold">بإشراف وتطوير الفاروق عمر</p>
+            <input type="text" id="userNameInput" placeholder="اكتب اسمك الكريم..." 
+            class="w-full p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-transparent focus:border-amber-500 outline-none text-center font-bold mb-4">
+            <button onclick="handleLogin()" class="w-full bg-emerald-800 text-white py-4 rounded-xl font-black shadow-lg active:scale-95 transition">دخول للمنصة</button>
+        </div>
+    </div>
+
+    <header class="bg-emerald-900/95 dark:bg-slate-950/95 text-white shadow-xl sticky top-0 z-50 px-4 py-4 border-b-4 border-amber-600 backdrop-blur-md">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-black tracking-tighter">✨ منبر الإيمان</h1>
-            <div class="flex items-center gap-2">
-                <button onclick="toggleDarkMode()" class="p-2 bg-white/20 rounded-xl hover:bg-white/30 transition">🌓</button>
-                <div class="hidden md:block text-xs opacity-80 border-r pr-3 mr-2">برمجة وتصميم: Al-Farouq Omar</div>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-xl shadow-lg rotate-3">📖</div>
+                <div>
+                    <h1 class="text-lg md:text-2xl font-black italic tracking-tighter">مَنْبَر الإِيمَان</h1>
+                    <p class="text-[8px] md:text-[9px] text-amber-300 font-bold tracking-widest">تصميم وبرمجة: الفاروق عمر</p>
+                </div>
             </div>
+            <button onclick="toggleDarkMode()" class="p-2 bg-black/20 rounded-lg border border-white/10 active:scale-90 transition">🌓</button>
         </div>
     </header>
 
-    <div class="container mx-auto p-4 md:p-6 lg:p-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <aside class="lg:col-span-3 space-y-4 order-2 lg:order-1">
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-emerald-100 dark:border-slate-700">
-                    <input type="text" id="surahSearch" oninput="filterSurahs()" placeholder="بحث عن سورة..." 
-                    class="w-full p-3 rounded-xl border dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                </div>
+    <nav class="sticky top-[76px] md:top-[88px] z-40 py-4 bg-transparent">
+        <div class="container mx-auto flex gap-2 md:gap-4 justify-center px-2">
+            <button onclick="openTab('quran', this)" class="nav-card active nav-btn px-6 md:px-10 py-3 rounded-xl md:rounded-2xl text-[10px] md:text-xs font-black transition-all glass-card">📖 المصحف</button>
+            <button onclick="openTab('subha', this)" class="nav-card nav-btn px-6 md:px-10 py-3 rounded-xl md:rounded-2xl text-[10px] md:text-xs font-black transition-all glass-card">📿 المسبحة</button>
+            <button onclick="logout()" class="px-4 py-3 rounded-xl md:rounded-2xl text-[10px] font-black bg-red-900/10 text-red-600 active:bg-red-600 active:text-white transition-all">خروج</button>
+        </div>
+    </nav>
 
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-emerald-100 dark:border-slate-700">
-                    <h3 class="font-bold mb-2 text-emerald-600 text-xs uppercase tracking-widest">المقرئ</h3>
-                    <select id="readerSelect" onchange="updateAudio()" class="w-full p-2.5 rounded-xl border dark:bg-slate-700 dark:border-slate-600 outline-none text-sm cursor-pointer">
-                        <option value="https://server7.mp3quran.net/basit">عبد الباسط عبد الصمد</option>
-                        <option value="https://server8.mp3quran.net/afs">مشاري العفاسي</option>
-                        <option value="https://server12.mp3quran.net/maher">ماهر المعيقلي</option>
-                        <option value="https://server11.mp3quran.net/shur">سعود الشريم</option>
-                        <option value="https://server10.mp3quran.net/minsh/Almusshaf_Almuallim">المنشاوي (المعلم)</option>
-                    </select>
-                </div>
-
-                <div class="bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-sm border border-emerald-100 dark:border-slate-700 h-[300px] lg:h-[500px]">
-                    <div id="surahList" class="h-full overflow-y-auto custom-scrollbar p-2 space-y-1">
-                        </div>
-                </div>
-            </aside>
-
-            <main class="lg:col-span-6 order-1 lg:order-2">
-                <div class="bg-white dark:bg-slate-800 rounded-[2rem] shadow-2xl p-6 md:p-12 min-h-[60vh] border border-emerald-50 dark:border-slate-700 relative">
-                    <div id="surahHeader" class="text-center mb-10 border-b dark:border-slate-700 pb-6">
-                        <h2 id="surahTitle" class="text-4xl md:text-5xl quran-font text-emerald-700 dark:text-emerald-400">سورة الفاتحة</h2>
-                        <p id="bismillah" class="mt-6 text-2xl md:text-3xl quran-font opacity-70 italic text-emerald-900 dark:text-emerald-200">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+    <div class="container mx-auto p-2 md:p-8">
+        <section id="quran" class="tab-content active">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
+                <aside class="lg:col-span-3 order-2 lg:order-1">
+                    <div class="glass-card p-4 md:p-6 shadow-xl border-t-4 md:border-t-8 border-emerald-800">
+                        <input type="text" oninput="filterSurahs()" id="surahSearch" placeholder="ابحث عن سورة..." 
+                        class="w-full p-3 bg-slate-100 dark:bg-slate-800 rounded-xl outline-none text-xs mb-4 border border-transparent focus:border-amber-500 transition-all">
+                        <div id="surahList" class="h-[300px] md:h-[500px] overflow-y-auto custom-scroll space-y-2 pr-1"></div>
                     </div>
-                    <div id="quranContainer" class="quran-font text-3xl md:text-4xl leading-[4.5rem] text-right text-slate-700 dark:text-slate-100">
+                </aside>
+                <main class="lg:col-span-9 order-1 lg:order-2">
+                    <div class="glass-card p-4 md:p-16 shadow-xl relative overflow-hidden">
+                        <div id="welcomeUser" class="text-center mb-4 text-[10px] font-bold text-amber-600 hidden"></div>
+                        <div class="mb-8 border-b border-amber-500/10 pb-8 text-center">
+                            <h2 id="surahTitle" class="text-4xl md:text-7xl quran-font text-emerald-950 dark:text-amber-500 font-bold mb-6 italic">سورة الفاتحة</h2>
+                            <div class="flex flex-col md:flex-row justify-center gap-4 items-center">
+                                <select id="readerSelect" onchange="updateAudio()" class="w-full md:w-auto bg-emerald-900 text-white text-[10px] p-3 rounded-xl border-2 border-amber-500 outline-none">
+                                    <option value="https://server7.mp3quran.net/basit">عبد الباسط عبد الصمد</option>
+                                    <option value="https://server10.mp3quran.net/minsh">محمد صديق المنشاوي</option>
+                                    <option value="https://server8.mp3quran.net/afs">مشاري العفاسي</option>
+                                </select>
+                                <div class="flex items-center gap-3 bg-slate-100 dark:bg-slate-800 p-2 rounded-xl w-full md:w-auto">
+                                    <span class="text-[9px] font-bold px-2">حجم الخط</span>
+                                    <input type="range" min="25" max="80" value="40" oninput="changeFontSize(this.value)" class="flex-1 md:w-24 accent-amber-600">
+                                </div>
+                            </div>
                         </div>
-                </div>
-            </main>
-
-            <aside class="lg:col-span-3 space-y-6 order-3">
-                <div class="bg-emerald-600 text-white p-6 rounded-[2rem] shadow-lg shadow-emerald-200 dark:shadow-none">
-                    <h3 class="font-bold mb-4 flex items-center gap-2 underline underline-offset-8 decoration-emerald-300">📌 التفسير والمتابعة</h3>
-                    <p id="tafsirBox" class="text-sm leading-relaxed italic mb-4">اضغط على آية لعرض التفسير وحفظ مكانك في القراءة.</p>
-                    <div id="bookmarkInfo" class="text-[10px] bg-emerald-700 p-2 rounded-lg hidden">
-                        ✅ تم حفظ الآية الحالية كعلامة رجوع.
+                        <div id="quranContainer" class="quran-font quran-container text-right italic leading-relaxed md:leading-[6rem]" style="font-size: 40px;"></div>
                     </div>
-                </div>
+                </main>
+            </div>
+        </section>
 
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-emerald-100 dark:border-slate-700 text-center">
-                    <h3 class="font-bold mb-4 text-emerald-600">📿 عداد التسبيح</h3>
-                    <div id="subhaCount" class="text-5xl font-black text-emerald-600 mb-4 transition-all">0</div>
-                    <button onclick="incrementSubha()" class="w-24 h-24 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full border-8 border-emerald-50 dark:border-slate-700 shadow-xl active:scale-95 transition-all text-2xl flex items-center justify-center mx-auto">📿</button>
-                    <button onclick="resetSubha()" class="mt-4 text-xs text-gray-400 hover:text-red-500 transition underline">تصفير</button>
+        <section id="subha" class="tab-content max-w-lg mx-auto px-4">
+            <div class="glass-card p-10 md:p-20 text-center shadow-xl border-b-8 border-emerald-900">
+                <div id="subhaCount" class="text-8xl md:text-[10rem] font-black text-emerald-900 dark:text-amber-500 mb-6 md:mb-8 tabular-nums">0</div>
+                <button onclick="countSubha()" class="w-28 h-28 md:w-36 md:h-36 bg-emerald-900 dark:bg-amber-600 rounded-full text-4xl md:text-5xl shadow-2xl active:scale-90 border-8 border-white dark:border-slate-800 mx-auto flex items-center justify-center transition-all text-white">📿</button>
+                <button onclick="resetSubha()" class="mt-8 text-[10px] font-bold opacity-30 underline">تصفير العداد</button>
+            </div>
+        </section>
+    </div>
+
+    <footer class="mt-10 bg-emerald-950 text-white p-8 md:p-12 border-t-8 border-amber-600">
+        <div class="container mx-auto text-center space-y-6">
+            <h2 class="text-xl md:text-3xl font-black text-amber-500 italic">تصميم وبرمجة الفاروق عمر</h2>
+            <div class="inline-block bg-amber-600/10 border border-amber-600 px-4 py-2 rounded-full text-amber-500 text-[10px] font-black">
+                عدد الزوار الكلي: <span id="visitorCount">0</span>
+            </div>
+            <div class="max-w-2xl mx-auto bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-[2rem] border border-white/10">
+                <p class="text-amber-400 font-bold mb-2 text-[10px] tracking-widest">⚠️ هذا الموقع تحت الإنشاء</p>
+                <p class="text-xs mb-6 opacity-70">للإبلاغ عن مشكلة أو للاقتراحات تواصل معنا:</p>
+                <div class="flex flex-col md:flex-row justify-center gap-3">
+                    <a href="https://wa.me/201116604156" target="_blank" class="bg-emerald-800 hover:bg-amber-600 p-3 rounded-xl text-[10px] font-black transition-all">01116604156 💬</a>
+                    <a href="https://wa.me/201100209467" target="_blank" class="bg-emerald-800 hover:bg-amber-600 p-3 rounded-xl text-[10px] font-black transition-all">01100209467 💬</a>
                 </div>
-                
-                <div class="text-center py-4 block md:hidden opacity-50 text-[10px]">
-                    برمجة وتصميم: Al-Farouq Omar <br> جميع الحقوق محفوظة © 2024
-                </div>
-            </aside>
+            </div>
+            <p class="opacity-30 text-[8px] md:text-[10px] tracking-[0.3em] font-bold uppercase">جميع الحقوق محفوظة &copy; 2026 الفاروق عمر</p>
+        </div>
+    </footer>
+
+    <div id="tafsirModal" class="fixed inset-0 z-[250] bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full p-8 relative animate-in zoom-in duration-300">
+            <button onclick="closeTafsir()" class="absolute top-4 left-4 text-xl opacity-40">✕</button>
+            <h3 id="tafsirTitle" class="text-xl font-black text-emerald-900 dark:text-amber-500 mb-4">تفسير الآية</h3>
+            <div id="tafsirContent" class="text-lg md:text-xl leading-relaxed bg-emerald-50 dark:bg-slate-800 p-6 rounded-2xl border-r-4 border-amber-600 italic max-h-[60vh] overflow-y-auto custom-scroll"></div>
         </div>
     </div>
 
-    <div class="fixed bottom-20 left-0 right-0 text-center text-[10px] opacity-40 z-0 hidden md:block">
-        Programming & Design by: Al-Farouq Omar | All Rights Reserved ©
-    </div>
-
-    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-emerald-100 dark:border-slate-800 p-4 z-50">
-        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div id="playerInfo" class="text-sm font-bold text-emerald-700 dark:text-emerald-400">
-                🔈 جاهز للتلاوة...
-            </div>
-            <audio id="mainAudio" controls class="w-full md:w-2/3 h-10 accent-emerald-500">
-                <source id="audioSource" src="" type="audio/mpeg">
-            </audio>
+    <footer class="fixed bottom-0 w-full glass-card !rounded-none border-t-4 border-amber-600 p-4 md:p-6 z-50 bg-white/95 dark:bg-slate-950/95">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div id="audioLabel" class="text-[10px] md:text-sm font-black text-emerald-900 dark:text-amber-500 truncate w-full md:w-auto text-center">جاهز للاستماع</div>
+            <audio id="mainAudio" controls class="w-full md:w-2/3 h-10 md:h-12"></audio>
         </div>
     </footer>
 
     <script>
         let allSurahs = [];
-        let currentSurahNum = 1;
+        let currentSNum = 1;
 
-        // 1. تشغيل الموقع وجلب البيانات
-        async function fetchSurahs() {
+        function initVisitorCount() {
+            let count = localStorage.getItem('v_hits_final') || 1050;
+            count = parseInt(count) + 1;
+            localStorage.setItem('v_hits_final', count);
+            document.getElementById('visitorCount').innerText = count.toLocaleString('ar-EG');
+        }
+
+        function checkLogin() {
+            const user = localStorage.getItem('emanUser');
+            if (!user) document.getElementById('loginOverlay').classList.remove('hidden');
+            else {
+                document.getElementById('welcomeUser').innerText = `أهلاً بك يا ${user} في رحاب القرآن`;
+                document.getElementById('welcomeUser').classList.remove('hidden');
+            }
+        }
+
+        function handleLogin() {
+            const name = document.getElementById('userNameInput').value;
+            if (name.trim()) { localStorage.setItem('emanUser', name); location.reload(); }
+        }
+
+        function logout() { localStorage.removeItem('emanUser'); location.reload(); }
+
+        async function init() {
+            checkLogin();
+            initVisitorCount();
             try {
                 const res = await fetch('https://api.alquran.cloud/v1/surah');
                 const data = await res.json();
                 allSurahs = data.data;
-                displaySurahs(allSurahs);
-                
-                // التحقق من وجود "علامة حفظ" سابقة
-                const savedSurah = localStorage.getItem('lastSurah');
-                if(savedSurah) {
-                    loadSurah(parseInt(savedSurah), `سورة ${allSurahs[savedSurah-1].name}`);
-                } else {
-                    loadSurah(1, 'سورة الفاتحة');
-                }
+                renderSurahs(allSurahs);
+                loadSurah(1, 'الفاتحة');
             } catch (e) { console.error("خطأ في الاتصال"); }
         }
 
-        function displaySurahs(surahs) {
-            const list = document.getElementById('surahList');
-            list.innerHTML = surahs.map(s => `
-                <div onclick="loadSurah(${s.number}, '${s.name}')" id="surah-item-${s.number}" 
-                class="p-3 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-xl cursor-pointer text-sm flex justify-between items-center transition">
-                    <span class="font-bold">${s.name}</span>
-                    <span class="text-[10px] opacity-40">${s.number}</span>
+        function renderSurahs(list) {
+            document.getElementById('surahList').innerHTML = list.map(s => `
+                <div onclick="loadSurah(${s.number}, '${s.name}')" class="p-3 bg-white/40 dark:bg-slate-800/40 rounded-xl cursor-pointer hover:bg-amber-600 hover:text-white transition-all flex justify-between items-center border border-amber-500/10 active:scale-95">
+                    <span class="text-[11px] font-black">${s.name}</span>
+                    <span class="text-[9px] font-bold opacity-60">سورة ${s.number}</span>
                 </div>
             `).join('');
         }
 
-        function filterSurahs() {
-            const term = document.getElementById('surahSearch').value.toLowerCase();
-            const filtered = allSurahs.filter(s => s.name.includes(term));
-            displaySurahs(filtered);
-        }
-
         async function loadSurah(num, name) {
-            currentSurahNum = num;
+            currentSNum = num;
             document.getElementById('surahTitle').innerText = name.includes('سورة') ? name : `سورة ${name}`;
-            document.getElementById('quranContainer').innerHTML = "<p class='text-center text-sm opacity-50'>جاري تحميل كلام الله...</p>";
-            document.getElementById('bismillah').style.display = (num === 9 || num === 1) ? 'none' : 'block';
-
+            document.getElementById('quranContainer').innerText = "جاري التحميل...";
+            
             const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}`);
             const data = await res.json();
-            
-            const lastAyahIdx = localStorage.getItem('lastAyah');
-            
             document.getElementById('quranContainer').innerHTML = data.data.ayahs.map(a => `
-                <span id="ayah-${a.numberInSurah}" onclick="markAsRead(${a.numberInSurah})" 
-                class="hover:text-emerald-500 transition-all cursor-pointer p-1 rounded ${ (num == localStorage.getItem('lastSurah') && a.numberInSurah == lastAyahIdx) ? 'last-read' : '' }">
-                    ${a.text} <span class="text-emerald-600 dark:text-emerald-400 font-bold text-xl mx-1 italic">﴿${a.numberInSurah}﴾</span>
+                <span onclick="openTafsir(${a.numberInSurah})" class="ayah-highlight p-1 cursor-pointer">
+                    ${a.text} <span class="text-amber-600 font-black opacity-30 mx-1" style="font-size: 0.5em">﴿${a.numberInSurah}﴾</span>
                 </span>
             `).join(' ');
-            
             updateAudio();
-            window.scrollTo(0,0);
+            if(window.innerWidth < 1024) window.scrollTo({top: 200, behavior: 'smooth'});
         }
 
-        // 2. ميزة حفظ آخر آية
-        async function markAsRead(ayahNum) {
-            // حفظ في الذاكرة المحلية
-            localStorage.setItem('lastSurah', currentSurahNum);
-            localStorage.setItem('lastAyah', ayahNum);
-            
-            // تمييز بصري
-            document.querySelectorAll('#quranContainer span').forEach(el => el.classList.remove('last-read'));
-            document.getElementById(`ayah-${ayahNum}`).classList.add('last-read');
-            
-            // إظهار التفسير وتأكيد الحفظ
-            document.getElementById('bookmarkInfo').classList.remove('hidden');
-            setTimeout(() => document.getElementById('bookmarkInfo').classList.add('hidden'), 3000);
-            
-            getTafsir(ayahNum);
+        async function openTafsir(ayahNum) {
+            document.getElementById('tafsirModal').classList.replace('hidden', 'flex');
+            document.getElementById('tafsirContent').innerText = "جاري جلب التفسير...";
+            try {
+                const res = await fetch(`https://api.alquran.cloud/v1/ayah/${currentSNum}:${ayahNum}/ar.jalalayn`);
+                const data = await res.json();
+                document.getElementById('tafsirContent').innerText = data.data.text;
+                document.getElementById('tafsirTitle').innerText = `تفسير الآية (${ayahNum})`;
+            } catch(e) { document.getElementById('tafsirContent').innerText = "عذراً، تعذر جلب التفسير."; }
         }
 
-        async function getTafsir(ayahNum) {
-            document.getElementById('tafsirBox').innerText = "جاري جلب التفسير...";
-            const res = await fetch(`https://api.alquran.cloud/v1/ayah/${currentSurahNum}:${ayahNum}/ar.jalalayn`);
-            const data = await res.json();
-            document.getElementById('tafsirBox').innerText = `تفسير آية (${ayahNum}): ${data.data.text}`;
-        }
+        function closeTafsir() { document.getElementById('tafsirModal').classList.replace('flex', 'hidden'); }
 
         function updateAudio() {
-            const baseUrl = document.getElementById('readerSelect').value;
-            const surahPadded = currentSurahNum.toString().padStart(3, '0');
-            const audio = document.getElementById('mainAudio');
-            document.getElementById('audioSource').src = `${baseUrl}/${surahPadded}.mp3`;
-            audio.load();
-            document.getElementById('playerInfo').innerText = `🔈 تلاوة: ${document.getElementById('readerSelect').options[document.getElementById('readerSelect').selectedIndex].text} - ${document.getElementById('surahTitle').innerText}`;
+            const server = document.getElementById('readerSelect').value;
+            const sNum = currentSNum.toString().padStart(3, '0');
+            document.getElementById('mainAudio').src = `${server}/${sNum}.mp3`;
+            document.getElementById('audioLabel').innerText = `تستمع الآن: ${document.getElementById('surahTitle').innerText}`;
         }
 
-        function toggleDarkMode() { document.getElementById('mainHtml').classList.toggle('dark'); }
-        let count = 0;
-        function incrementSubha() { count++; document.getElementById('subhaCount').innerText = count; }
-        function resetSubha() { count = 0; document.getElementById('subhaCount').innerText = count; }
+        function openTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-card').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
 
-        window.onload = fetchSurahs;
+        function filterSurahs() {
+            const val = document.getElementById('surahSearch').value;
+            renderSurahs(allSurahs.filter(s => s.name.includes(val)));
+        }
+
+        function changeFontSize(size) { document.getElementById('quranContainer').style.fontSize = size + 'px'; }
+        
+        function countSubha() {
+            let c = parseInt(document.getElementById('subhaCount').innerText) + 1;
+            document.getElementById('subhaCount').innerText = c;
+            if(navigator.vibrate) navigator.vibrate(60);
+        }
+        function resetSubha() { document.getElementById('subhaCount').innerText = 0; }
+
+        function toggleDarkMode() { document.getElementById('mainHtml').classList.toggle('dark'); }
+
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("scrollProgress").style.width = (winScroll / height) * 100 + "%";
+        };
+
+        window.onload = init;
     </script>
 </body>
 </html>

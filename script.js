@@ -53,4 +53,18 @@ function toggleDarkMode() {
 if (localStorage.getItem('theme') === 'dark') {
     document.getElementById('mainHtml').classList.add('dark');
     document.getElementById('themeIcon').innerText = '🌙';
+}function updateAudio() {
+    // 1. جلب رابط الخادم الخاص بالشيخ المختار
+    const server = document.getElementById('readerSelect').value;
+    
+    // 2. تحويل رقم السورة إلى صيغة 3 أرقام (مثلاً سورة رقم 1 تصبح 001)
+    const sNum = currentSurahNum.toString().padStart(3, '0');
+    
+    // 3. دمج الرابط النهائي (مثال: https://server7.mp3quran.net/basit/001.mp3)
+    const audio = document.getElementById('mainAudio');
+    audio.src = `${server}/${sNum}.mp3`;
+    
+    // 4. تحميل الصوت وتشغيله
+    audio.load();
+    document.getElementById('playerLabel').innerText = `${document.getElementById('surahTitle').innerText}`;
 }
