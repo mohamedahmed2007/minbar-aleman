@@ -1,84 +1,211 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="mainHtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منبر الإيمان | للقرآن الكريم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>منبر الإيمان - المنصة القرآنية الشاملة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; transition: 0.3s; scroll-behavior: smooth; }
+        .quran-font { font-family: 'Amiri', serif; }
+        .header-gradient { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
+        .last-read { border: 2px solid #f59e0b !important; background: #fffbeb; border-radius: 8px; padding: 2px; }
+        .dark .last-read { background: #451a03; border-color: #fbbf24 !important; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen pb-32">
 
-    <header class="navbar">
-        <div class="container nav-content">
-            <div class="logo">
-                <i class="fas fa-mosque"></i>
-                <span>منبر الإيمان</span>
-            </div>
-            <div class="search-bar">
-                <input type="text" id="surahSearch" placeholder="ابحث عن سورة...">
-                <i class="fas fa-search"></i>
-            </div>
-            <div class="nav-actions">
-                <button id="themeToggle"><i class="fas fa-moon"></i></button>
+    <header class="header-gradient text-white shadow-xl sticky top-0 z-50 px-4 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-black tracking-tighter">✨ منبر الإيمان</h1>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleDarkMode()" class="p-2 bg-white/20 rounded-xl hover:bg-white/30 transition">🌓</button>
+                <div class="hidden md:block text-xs opacity-80 border-r pr-3 mr-2">برمجة وتصميم: Al-Farouq Omar</div>
             </div>
         </div>
     </header>
 
-    <main class="main-wrapper container">
-        <aside class="sidebar">
-            <div class="sidebar-label">فهرس السور</div>
-            <div id="surahList" class="surah-list">
-                <div class="loading-spin"><i class="fas fa-spinner fa-spin"></i></div>
-            </div>
-        </aside>
-
-        <section class="reader-section">
-            <div class="reader-tools">
-                <h2 id="activeSurahTitle">اختر سورة</h2>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="setView('reading')">قراءة</button>
-                    <button class="tab-btn" onclick="setView('tajweed')">تجويد</button>
-                    <button class="tab-btn" onclick="setView('tafsir')">تفسير</button>
+    <div class="container mx-auto p-4 md:p-6 lg:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <aside class="lg:col-span-3 space-y-4 order-2 lg:order-1">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-emerald-100 dark:border-slate-700">
+                    <input type="text" id="surahSearch" oninput="filterSurahs()" placeholder="بحث عن سورة..." 
+                    class="w-full p-3 rounded-xl border dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
                 </div>
-            </div>
 
-            <div id="mainDisplay" class="display-area Amiri">
-                <div class="welcome-box">
-                    <i class="fas fa-quran"></i>
-                    <h2>مرحباً بكم في منبر الإيمان</h2>
-                    <p>تصميم وبرمجة: الفاروق عمر & محمد أحمد</p>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-emerald-100 dark:border-slate-700">
+                    <h3 class="font-bold mb-2 text-emerald-600 text-xs uppercase tracking-widest">المقرئ</h3>
+                    <select id="readerSelect" onchange="updateAudio()" class="w-full p-2.5 rounded-xl border dark:bg-slate-700 dark:border-slate-600 outline-none text-sm cursor-pointer">
+                        <option value="https://server7.mp3quran.net/basit">عبد الباسط عبد الصمد</option>
+                        <option value="https://server8.mp3quran.net/afs">مشاري العفاسي</option>
+                        <option value="https://server12.mp3quran.net/maher">ماهر المعيقلي</option>
+                        <option value="https://server11.mp3quran.net/shur">سعود الشريم</option>
+                        <option value="https://server10.mp3quran.net/minsh/Almusshaf_Almuallim">المنشاوي (المعلم)</option>
+                    </select>
                 </div>
-            </div>
-        </section>
-    </main>
 
-    <footer class="audio-footer">
-        <div class="player-container container">
-            <div class="track-info">
-                <strong id="trackSurah">منبر الإيمان</strong>
-                <span id="trackReader">مشاري العفاسي</span>
-            </div>
-            <div class="controls">
-                <audio id="quranAudio"></audio>
-                <button id="playPauseBtn" class="main-play"><i class="fas fa-play"></i></button>
-                <input type="range" id="audioProgress" value="0">
-                <span id="timeDisplay">00:00</span>
-            </div>
-        </div>
-    </footer>
+                <div class="bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-sm border border-emerald-100 dark:border-slate-700 h-[300px] lg:h-[500px]">
+                    <div id="surahList" class="h-full overflow-y-auto custom-scrollbar p-2 space-y-1">
+                        </div>
+                </div>
+            </aside>
 
-    <div class="ai-trigger" onclick="toggleChat()"><i class="fas fa-robot"></i></div>
-    <div class="ai-panel" id="aiPanel">
-        <div class="ai-header">مساعد منبر الإيمان <i class="fas fa-times" onclick="toggleChat()"></i></div>
-        <div id="chatBox" class="chat-box"></div>
-        <div class="chat-input">
-            <input type="text" id="aiInput" placeholder="اسأل عن آية أو حكم...">
-            <button onclick="askAI()"><i class="fas fa-paper-plane"></i></button>
+            <main class="lg:col-span-6 order-1 lg:order-2">
+                <div class="bg-white dark:bg-slate-800 rounded-[2rem] shadow-2xl p-6 md:p-12 min-h-[60vh] border border-emerald-50 dark:border-slate-700 relative">
+                    <div id="surahHeader" class="text-center mb-10 border-b dark:border-slate-700 pb-6">
+                        <h2 id="surahTitle" class="text-4xl md:text-5xl quran-font text-emerald-700 dark:text-emerald-400">سورة الفاتحة</h2>
+                        <p id="bismillah" class="mt-6 text-2xl md:text-3xl quran-font opacity-70 italic text-emerald-900 dark:text-emerald-200">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                    </div>
+                    <div id="quranContainer" class="quran-font text-3xl md:text-4xl leading-[4.5rem] text-right text-slate-700 dark:text-slate-100">
+                        </div>
+                </div>
+            </main>
+
+            <aside class="lg:col-span-3 space-y-6 order-3">
+                <div class="bg-emerald-600 text-white p-6 rounded-[2rem] shadow-lg shadow-emerald-200 dark:shadow-none">
+                    <h3 class="font-bold mb-4 flex items-center gap-2 underline underline-offset-8 decoration-emerald-300">📌 التفسير والمتابعة</h3>
+                    <p id="tafsirBox" class="text-sm leading-relaxed italic mb-4">اضغط على آية لعرض التفسير وحفظ مكانك في القراءة.</p>
+                    <div id="bookmarkInfo" class="text-[10px] bg-emerald-700 p-2 rounded-lg hidden">
+                        ✅ تم حفظ الآية الحالية كعلامة رجوع.
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] shadow-sm border border-emerald-100 dark:border-slate-700 text-center">
+                    <h3 class="font-bold mb-4 text-emerald-600">📿 عداد التسبيح</h3>
+                    <div id="subhaCount" class="text-5xl font-black text-emerald-600 mb-4 transition-all">0</div>
+                    <button onclick="incrementSubha()" class="w-24 h-24 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full border-8 border-emerald-50 dark:border-slate-700 shadow-xl active:scale-95 transition-all text-2xl flex items-center justify-center mx-auto">📿</button>
+                    <button onclick="resetSubha()" class="mt-4 text-xs text-gray-400 hover:text-red-500 transition underline">تصفير</button>
+                </div>
+                
+                <div class="text-center py-4 block md:hidden opacity-50 text-[10px]">
+                    برمجة وتصميم: Al-Farouq Omar <br> جميع الحقوق محفوظة © 2024
+                </div>
+            </aside>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="fixed bottom-20 left-0 right-0 text-center text-[10px] opacity-40 z-0 hidden md:block">
+        Programming & Design by: Al-Farouq Omar | All Rights Reserved ©
+    </div>
+
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-emerald-100 dark:border-slate-800 p-4 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div id="playerInfo" class="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                🔈 جاهز للتلاوة...
+            </div>
+            <audio id="mainAudio" controls class="w-full md:w-2/3 h-10 accent-emerald-500">
+                <source id="audioSource" src="" type="audio/mpeg">
+            </audio>
+        </div>
+    </footer>
+
+    <script>
+        let allSurahs = [];
+        let currentSurahNum = 1;
+
+        // 1. تشغيل الموقع وجلب البيانات
+        async function fetchSurahs() {
+            try {
+                const res = await fetch('https://api.alquran.cloud/v1/surah');
+                const data = await res.json();
+                allSurahs = data.data;
+                displaySurahs(allSurahs);
+                
+                // التحقق من وجود "علامة حفظ" سابقة
+                const savedSurah = localStorage.getItem('lastSurah');
+                if(savedSurah) {
+                    loadSurah(parseInt(savedSurah), `سورة ${allSurahs[savedSurah-1].name}`);
+                } else {
+                    loadSurah(1, 'سورة الفاتحة');
+                }
+            } catch (e) { console.error("خطأ في الاتصال"); }
+        }
+
+        function displaySurahs(surahs) {
+            const list = document.getElementById('surahList');
+            list.innerHTML = surahs.map(s => `
+                <div onclick="loadSurah(${s.number}, '${s.name}')" id="surah-item-${s.number}" 
+                class="p-3 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-xl cursor-pointer text-sm flex justify-between items-center transition">
+                    <span class="font-bold">${s.name}</span>
+                    <span class="text-[10px] opacity-40">${s.number}</span>
+                </div>
+            `).join('');
+        }
+
+        function filterSurahs() {
+            const term = document.getElementById('surahSearch').value.toLowerCase();
+            const filtered = allSurahs.filter(s => s.name.includes(term));
+            displaySurahs(filtered);
+        }
+
+        async function loadSurah(num, name) {
+            currentSurahNum = num;
+            document.getElementById('surahTitle').innerText = name.includes('سورة') ? name : `سورة ${name}`;
+            document.getElementById('quranContainer').innerHTML = "<p class='text-center text-sm opacity-50'>جاري تحميل كلام الله...</p>";
+            document.getElementById('bismillah').style.display = (num === 9 || num === 1) ? 'none' : 'block';
+
+            const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}`);
+            const data = await res.json();
+            
+            const lastAyahIdx = localStorage.getItem('lastAyah');
+            
+            document.getElementById('quranContainer').innerHTML = data.data.ayahs.map(a => `
+                <span id="ayah-${a.numberInSurah}" onclick="markAsRead(${a.numberInSurah})" 
+                class="hover:text-emerald-500 transition-all cursor-pointer p-1 rounded ${ (num == localStorage.getItem('lastSurah') && a.numberInSurah == lastAyahIdx) ? 'last-read' : '' }">
+                    ${a.text} <span class="text-emerald-600 dark:text-emerald-400 font-bold text-xl mx-1 italic">﴿${a.numberInSurah}﴾</span>
+                </span>
+            `).join(' ');
+            
+            updateAudio();
+            window.scrollTo(0,0);
+        }
+
+        // 2. ميزة حفظ آخر آية
+        async function markAsRead(ayahNum) {
+            // حفظ في الذاكرة المحلية
+            localStorage.setItem('lastSurah', currentSurahNum);
+            localStorage.setItem('lastAyah', ayahNum);
+            
+            // تمييز بصري
+            document.querySelectorAll('#quranContainer span').forEach(el => el.classList.remove('last-read'));
+            document.getElementById(`ayah-${ayahNum}`).classList.add('last-read');
+            
+            // إظهار التفسير وتأكيد الحفظ
+            document.getElementById('bookmarkInfo').classList.remove('hidden');
+            setTimeout(() => document.getElementById('bookmarkInfo').classList.add('hidden'), 3000);
+            
+            getTafsir(ayahNum);
+        }
+
+        async function getTafsir(ayahNum) {
+            document.getElementById('tafsirBox').innerText = "جاري جلب التفسير...";
+            const res = await fetch(`https://api.alquran.cloud/v1/ayah/${currentSurahNum}:${ayahNum}/ar.jalalayn`);
+            const data = await res.json();
+            document.getElementById('tafsirBox').innerText = `تفسير آية (${ayahNum}): ${data.data.text}`;
+        }
+
+        function updateAudio() {
+            const baseUrl = document.getElementById('readerSelect').value;
+            const surahPadded = currentSurahNum.toString().padStart(3, '0');
+            const audio = document.getElementById('mainAudio');
+            document.getElementById('audioSource').src = `${baseUrl}/${surahPadded}.mp3`;
+            audio.load();
+            document.getElementById('playerInfo').innerText = `🔈 تلاوة: ${document.getElementById('readerSelect').options[document.getElementById('readerSelect').selectedIndex].text} - ${document.getElementById('surahTitle').innerText}`;
+        }
+
+        function toggleDarkMode() { document.getElementById('mainHtml').classList.toggle('dark'); }
+        let count = 0;
+        function incrementSubha() { count++; document.getElementById('subhaCount').innerText = count; }
+        function resetSubha() { count = 0; document.getElementById('subhaCount').innerText = count; }
+
+        window.onload = fetchSurahs;
+    </script>
 </body>
-</html><meta name="viewport" content="width=device-width, initial-scale=1.0">
+</html>
