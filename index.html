@@ -3,266 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منبر الإيمان - الفاروق عمر</title>
+    <title>منبر الإيمان - نسخة الفاروق عمر الشاملة | المصحف الكريم</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { darkMode: 'class' }</script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            background-color: #fdfaf3; 
-            background-image: url("https://www.transparenttextures.com/patterns/arabesque.png");
-            background-attachment: fixed;
-            transition: 0.5s; 
-            overflow-x: hidden;
-        }
-        .dark body { 
-            background-color: #020617; 
-            background-image: url("https://www.transparenttextures.com/patterns/black-linen.png"), url("https://www.transparenttextures.com/patterns/arabesque.png");
-            background-blend-mode: overlay;
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: #fdfaf3; background-image: url("https://www.transparenttextures.com/patterns/arabesque.png"); background-attachment: fixed; transition: 0.5s; }
+        .dark body { background-color: #020617; background-image: url("https://www.transparenttextures.com/patterns/black-linen.png"), url("https://www.transparenttextures.com/patterns/arabesque.png"); background-blend-mode: overlay; }
         .quran-font { font-family: 'Amiri', serif; }
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.9); 
-            backdrop-filter: blur(15px); 
-            border-radius: 2.5rem; 
-            border: 1px solid rgba(217, 119, 6, 0.2); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-        }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); border-radius: 2.5rem; border: 1px solid rgba(217, 119, 6, 0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
         .dark .glass-card { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(251, 191, 36, 0.1); }
-        .nav-card.active { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white !important; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3); }
+        .nav-card.active { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white !important; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3); }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.6s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .ayah-highlight:hover { background: rgba(217, 119, 6, 0.1); cursor: pointer; border-radius: 12px; transition: 0.3s; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 1.5rem; overflow: hidden; margin-bottom: 1rem; border: 4px border-amber-500/20; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .nav-scroll { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-        .nav-scroll::-webkit-scrollbar { display: none; }
+        .palestine-bar { background-color: #000; color: #fff; padding: 10px 0; font-size: 0.85rem; font-weight: 900; text-align: center; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid #008000; }
+        .waving-flag { height: 26px; width: auto; margin: 0 15px; vertical-align: middle; display: inline-block; }
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
     </style>
 </head>
 <body class="dark:text-slate-200 min-h-screen pb-48 text-slate-900">
 
-    <header class="bg-emerald-900/95 dark:bg-slate-950/95 text-white shadow-2xl sticky top-0 z-50 px-4 py-5 border-b-4 border-amber-600 backdrop-blur-md">
+    <div class="palestine-bar shadow-2xl">
+        <marquee behavior="scroll" direction="right" scrollamount="7">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Palestine_%28waving%29.gif" class="waving-flag">
+            نحن ندعم فلسطين.. فلسطين حرة <span class="mx-6 text-amber-400">|</span> We support Palestine.. Free Palestine
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Palestine_%28waving%29.gif" class="waving-flag">
+        </marquee>
+    </div>
+
+    <header class="bg-emerald-900/95 dark:bg-slate-950/95 text-white shadow-2xl sticky top-[46px] z-50 px-4 py-5 border-b-4 border-amber-600 backdrop-blur-md">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-xl shadow-lg rotate-3">📖</div>
+                <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-xl shadow-lg rotate-3">🌙</div>
                 <div>
                     <h1 class="text-lg md:text-2xl font-black italic tracking-tighter">مَنْبَر الإِيمَان</h1>
-                    <p class="text-[8px] md:text-[9px] text-amber-300 font-bold tracking-widest uppercase">بإشراف: الفاروق عمر</p>
+                    <p class="text-[8px] md:text-[9px] text-amber-300 font-bold tracking-widest uppercase italic">الفاروق عمر | 2026</p>
                 </div>
             </div>
-            <button onclick="toggleDarkMode()" class="p-2 bg-black/20 rounded-lg border border-white/10 hover:bg-amber-600 transition">🌓</button>
+            <div class="flex items-center gap-2">
+                <button onclick="document.getElementById('loginModal').classList.replace('hidden', 'flex')" class="px-4 py-2 bg-amber-600 text-white text-[10px] font-black rounded-lg hover:bg-amber-700 transition">تسجيل الدخول</button>
+                <button onclick="document.getElementById('mainHtml').classList.toggle('dark')" class="p-2 bg-black/20 rounded-lg border border-white/10">🌓</button>
+            </div>
         </div>
     </header>
 
-    <nav class="sticky top-[76px] md:top-[88px] z-40 py-4 px-2">
+    <nav class="sticky top-[130px] md:top-[140px] z-40 py-4 px-2">
         <div class="container mx-auto nav-scroll flex gap-2 md:justify-center">
-            <button onclick="openTab('quran', this)" class="nav-card active px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">📖 المصحف</button>
-            <button onclick="openTab('hadith', this)" class="nav-card px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">📜 الأحاديث</button>
+            <button onclick="openTab('quran', this)" class="nav-card active px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">📖 المصحف الكريم</button>
+            <button onclick="openTab('share', this)" class="nav-card px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">✉️ رسائل إيمانية</button>
+            <button onclick="openTab('kids', this)" class="nav-card px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">🏆 مسابقة الأطفال</button>
             <button onclick="openTab('azkar', this)" class="nav-card px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">📿 الأذكار</button>
-            <button onclick="openTab('kids', this)" class="nav-card px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">👶 ركن الأطفال</button>
-            <button onclick="openTab('subha', this)" class="nav-card px-6 py-3 rounded-2xl text-[10px] font-black transition-all glass-card">🔢 المسبحة</button>
         </div>
     </nav>
 
-    <div class="container mx-auto p-4 md:p-6">
+    <div class="container mx-auto p-4">
 
         <section id="quran" class="tab-content active">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <aside class="lg:col-span-3">
-                    <div class="glass-card p-4 border-t-8 border-emerald-800 h-[450px] flex flex-col">
-                        <input type="text" oninput="filterSurahs()" id="surahSearch" placeholder="ابحث عن سورة..." class="w-full p-3 bg-slate-100 dark:bg-slate-800 rounded-xl outline-none text-xs mb-4 border border-amber-500/10">
-                        <div id="surahList" class="overflow-y-auto space-y-2 pr-1 flex-1 custom-scroll"></div>
+                    <div class="glass-card p-4 h-[500px] flex flex-col border-t-8 border-emerald-800">
+                        <input type="text" oninput="filterSurahs()" id="surahSearch" placeholder="ابحث عن سورة..." class="w-full p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs mb-4 outline-none border border-amber-500/10 text-center">
+                        <div id="surahList" class="overflow-y-auto space-y-2 flex-1 custom-scroll"></div>
                     </div>
                 </aside>
                 <main class="lg:col-span-9">
-                    <div class="glass-card p-6 md:p-16 text-center shadow-2xl">
+                    <div class="glass-card p-6 md:p-16 text-center">
                         <h2 id="surahTitle" class="text-4xl md:text-7xl quran-font text-emerald-950 dark:text-amber-500 font-bold mb-8 italic">سورة الفاتحة</h2>
                         <div class="mb-8">
-                            <select id="readerSelect" onchange="updateAudio()" class="bg-emerald-900 text-white text-[10px] p-2.5 rounded-xl border border-amber-500 outline-none">
-                                <option value="https://server7.mp3quran.net/basit">عبد الباسط عبد الصمد</option>
-                                <option value="https://server10.mp3quran.net/minsh">محمد صديق المنشاوي</option>
-                                <option value="https://server8.mp3quran.net/afs">مشاري العفاسي</option>
+                            <select id="readerSelect" onchange="updateAudio()" class="bg-emerald-900 text-white text-[10px] p-3 rounded-xl border-2 border-amber-500 outline-none w-full md:w-auto shadow-xl">
+                                <option value="https://server7.mp3quran.net/basit">الشيخ عبدالباسط عبد الصمد</option>
+                                <option value="https://server11.mp3quran.net/mussad">القارئ عبدالرحمن مسعد</option>
+                                <option value="https://server13.mp3quran.net/husr">الشيخ محمود خليل الحصري</option>
+                                <option value="https://server10.mp3quran.net/minsh">الشيخ محمد صديق المنشاوي</option>
                             </select>
                         </div>
-                        <div id="quranContainer" class="quran-font text-right italic leading-[4.5rem] md:leading-[7rem]" style="font-size: 38px;"></div>
+                        <div id="quranContainer" class="quran-font text-right italic leading-[4.5rem] md:leading-[7rem] text-3xl md:text-5xl"></div>
                     </div>
                 </main>
             </div>
         </section>
 
-        <section id="hadith" class="tab-content max-w-4xl mx-auto space-y-6">
-            <div id="hadithList" class="grid gap-6">
-                </div>
+        <section id="share" class="tab-content">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-black text-emerald-900 dark:text-amber-500 italic">انشر تؤجر ✉️</h2>
+                <p class="text-sm font-bold opacity-60">مجموعة كبيرة من الرسائل الإيمانية لنشر الخير</p>
+            </div>
+            <div id="shareGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
-        <section id="azkar" class="tab-content max-w-2xl mx-auto">
-            <div id="azkarContainer" class="space-y-4">
+        <section id="kids" class="tab-content max-w-2xl mx-auto">
+            <div class="glass-card p-8 border-t-8 border-blue-500 text-center shadow-2xl">
+                <div class="flex justify-between items-center mb-8 bg-blue-50 dark:bg-slate-800 p-4 rounded-2xl">
+                    <div class="text-sm font-black text-blue-600">النقاط: <span id="userPoints" class="text-xl">0</span> 🌟</div>
+                    <div class="text-[10px] font-bold text-slate-400">كن بطلاً إيمانياً!</div>
                 </div>
-        </section>
-
-        <section id="kids" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-card p-4 text-center border-b-8 border-blue-500">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/S2Y8Y0vO938" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <h3 class="font-black text-sm">قصة النبي يونس عليه السلام</h3>
+                <div id="quizBox">
+                    <h3 id="questionText" class="text-2xl font-black mb-8 text-emerald-900 dark:text-amber-500 leading-relaxed">جاري التحميل...</h3>
+                    <div id="optionsBox" class="grid gap-4"></div>
                 </div>
-                <div class="glass-card p-4 text-center border-b-8 border-green-500">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/f-O7_V7YQ-8" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <h3 class="font-black text-sm">تعليم الصلاة للاطفال</h3>
-                </div>
-                <div class="glass-card p-4 text-center border-b-8 border-amber-500">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/S4A660505_k" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <h3 class="font-black text-sm">تعليم الوضوء للأطفال</h3>
+                <div id="resultBox" class="hidden animate-bounce mt-10">
+                    <h4 class="text-3xl font-black text-green-600 dark:text-green-400 mb-2">رائع! إجابة صحيحة 🏆</h4>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">لقد حصلت على 10 نقاط إضافية</p>
+                    <button onclick="nextQuestion()" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-12 py-4 rounded-full font-black shadow-xl hover:scale-105 transition-transform uppercase tracking-tighter">السؤال التالي 🚀</button>
                 </div>
             </div>
         </section>
 
-        <section id="subha" class="tab-content max-w-sm mx-auto">
-            <div class="glass-card p-16 text-center border-b-8 border-emerald-900 shadow-2xl">
-                <div id="subhaCount" class="text-8xl font-black text-emerald-900 dark:text-amber-500 mb-8 tabular-nums">0</div>
-                <button onclick="countSubha()" class="w-32 h-32 bg-emerald-900 dark:bg-amber-600 rounded-full text-4xl shadow-2xl active:scale-90 text-white mx-auto flex items-center justify-center border-4 border-white">📿</button>
-                <button onclick="document.getElementById('subhaCount').innerText=0" class="mt-8 text-[10px] opacity-40 underline">تصفير</button>
-            </div>
+        <section id="azkar" class="tab-content max-w-2xl mx-auto space-y-4">
+            <div id="azkarContainer"></div>
         </section>
-
     </div>
 
-    <div id="tafsirModal" class="fixed inset-0 z-[250] bg-black/95 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="glass-card max-w-xl w-full p-8 relative">
-            <button onclick="closeTafsir()" class="absolute top-4 left-4 text-2xl opacity-40">✕</button>
-            <h3 id="tafsirTitle" class="text-2xl font-black text-emerald-900 dark:text-amber-500 mb-6 italic border-r-8 border-amber-600 pr-4">تفسير الآية</h3>
-            <div id="tafsirContent" class="text-2xl leading-relaxed bg-emerald-50 dark:bg-slate-800 p-6 rounded-[2rem] italic max-h-[50vh] overflow-y-auto"></div>
+    <div id="loginModal" class="fixed inset-0 z-[300] bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-card max-w-sm w-full p-8 relative">
+            <button onclick="document.getElementById('loginModal').classList.replace('flex', 'hidden')" class="absolute top-4 left-4 opacity-40 hover:opacity-100 transition">✕</button>
+            <h3 class="text-2xl font-black text-emerald-900 dark:text-amber-500 mb-6 text-center">تسجيل الدخول</h3>
+            <input type="text" placeholder="اسم المستخدم" class="w-full p-4 mb-3 bg-slate-100 dark:bg-slate-800 rounded-xl outline-none border focus:border-amber-500 text-center">
+            <input type="password" placeholder="كلمة المرور" class="w-full p-4 mb-6 bg-slate-100 dark:bg-slate-800 rounded-xl outline-none border focus:border-amber-500 text-center">
+            <button class="w-full py-4 bg-emerald-900 text-white rounded-xl font-black shadow-xl hover:bg-amber-600 transition">دخول</button>
         </div>
     </div>
 
     <footer class="mt-10 bg-emerald-950 text-white p-10 border-t-8 border-amber-600 text-center">
-        <h2 class="text-2xl font-black text-amber-500 mb-4">تصميم وبرمجة الفاروق عمر</h2>
-        <div class="bg-white/5 inline-block px-6 py-2 rounded-full mb-6 border border-white/10 text-xs font-black">
-            إجمالي الزيارات: <span id="visitorCount">1,620</span>
+        <h2 class="text-2xl font-black text-amber-500 mb-6 italic">تصميم وبرمجة: الفاروق عمر</h2>
+        <div class="flex flex-col md:flex-row justify-center gap-6 mb-10">
+            <a href="https://wa.me/201116604156" target="_blank" class="flex items-center justify-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl hover:bg-white/10 transition">
+                <span class="text-green-400">💬</span> <span class="font-bold">01116604156</span>
+            </a>
+            <a href="https://wa.me/201100209467" target="_blank" class="flex items-center justify-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl hover:bg-white/10 transition">
+                <span class="text-green-400">💬</span> <span class="font-bold">01100209467</span>
+            </a>
         </div>
-        <div class="flex flex-col md:flex-row justify-center gap-4 text-xs">
-            <a href="https://wa.me/201116604156" class="bg-emerald-800 px-6 py-2 rounded-xl">01116604156 🟢</a>
-            <a href="https://wa.me/201100209467" class="bg-emerald-800 px-6 py-2 rounded-xl">01100209467 🟢</a>
-        </div>
-        <p class="mt-8 opacity-30 text-[9px] font-bold uppercase tracking-[0.4em]">جميع الحقوق محفوظة &copy; 2026 الفاروق عمر</p>
+        <p class="mt-8 opacity-20 text-[9px] font-bold uppercase tracking-widest">جميع الحقوق محفوظة &copy; 2026 الفاروق عمر</p>
     </footer>
 
     <footer class="fixed bottom-0 w-full glass-card !rounded-none border-t-4 border-amber-600 p-4 z-50 bg-white/95 dark:bg-slate-950/95">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div id="audioLabel" class="text-[10px] font-black text-emerald-900 dark:text-amber-500 truncate">منبر الإيمان جاهز</div>
+            <div id="audioLabel" class="text-[10px] font-black text-emerald-900 dark:text-amber-500">جاهز للبث</div>
             <audio id="mainAudio" controls class="w-full md:w-2/3 h-10"></audio>
         </div>
     </footer>
 
     <script>
-        const hadiths = [
-            { t: "قَالَ رَسُولُ اللَّهِ ﷺ: «إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى»", e: "النية هي أساس كل عمل، فاجعل نيتك خالصة لله دائماً." },
-            { t: "قَالَ رَسُولُ اللَّهِ ﷺ: «خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ»", e: "أفضل الناس من انشغل بدراسة القرآن ونشر علومه." },
-            { t: "قَالَ رَسُولُ اللَّهِ ﷺ: «الدِّينُ النَّصِيحَةُ»", e: "جوهر الدين هو حب الخير للآخرين وتوجيههم بلين." },
-            { t: "قَالَ رَسُولُ اللَّهِ ﷺ: «مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللَّهُ عَلَيْهِ بِهَا عَشْرًا»", e: "فضل الصلاة على النبي ﷺ عظيم ومضاعف للأجر." }
+        // رسائل المشاركة
+        const msgs = [
+            "نحن ندعم فلسطين.. فلسطين حرة أبية من النهر إلى البحر 🇵🇸",
+            "اللهم بلغنا رمضان وأنت راضٍ عنا، لا فاقدين ولا مفقودين 🌙",
+            "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ ✨",
+            "صلوا على من يشفع لنا يوم القيامة.. ﷺ ❤️",
+            "لا حَوْلَ وَلا قُوَّةَ إِلا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ 📿",
+            "اللهم إني أسألك الفردوس الأعلى من الجنة بغير حساب 🤲",
+            "الاستغفار يفتح الأقفال.. استغفر الله العظيم واتوب إليه ☁️",
+            "من لزم الاستغفار جعل الله له من كل هم فرجاً 💎",
+            "اللهم اجعل القرآن الكريم ربيع قلوبنا ونور صدورنا 📖",
+            "رضيت بالله رباً، وبالإسلام ديناً، وبمحمد ﷺ نبياً 🌟",
+            "يا حي يا قيوم برحمتك أستغيث، أصلح لي شأني كله 🙏",
+            "اللهم صل وسلم وبارك على نبينا محمد وعلى آله وصحبه أجمعين ✨",
+            "لا إله إلا أنت سبحانك إني كنت من الظالمين 🐚",
+            "اللهم في هذا اليوم، انصر إخواننا في فلسطين وكن لهم عوناً 🇵🇸",
+            "الكلمة الطيبة صدقة.. فتبسم في وجه أخيك 😊",
+            "سبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر 🕋"
         ];
 
-        const azkarList = [
-            { category: "أذكار الصباح", text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ", count: 1 },
-            { category: "أذكار الصباح", text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", count: 100 },
-            { category: "أذكار المساء", text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ", count: 1 },
-            { category: "أذكار المساء", text: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ", count: 70 },
-            { category: "بعد الصلاة", text: "أَسْتَغْفِرُ اللَّهَ (ثلاثاً)", count: 3 },
-            { category: "أذكار النوم", text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي", count: 1 }
+        function renderShareMessages() {
+            document.getElementById('shareGrid').innerHTML = msgs.map(m => `
+                <div class="glass-card p-6 border-b-8 border-amber-600 flex flex-col justify-between h-full hover:shadow-xl transition">
+                    <p class="text-md font-black italic mb-6 leading-relaxed text-emerald-900 dark:text-slate-200">"${m}"</p>
+                    <div class="flex gap-2 mt-auto">
+                        <button onclick="window.open('https://wa.me/?text=${encodeURIComponent(m)}')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold text-[10px] transition shadow-md">واتساب ✅</button>
+                        <button onclick="navigator.clipboard.writeText('${m}'); alert('تم نسخ الرسالة بنجاح!')" class="flex-1 bg-emerald-800 hover:bg-emerald-900 text-white py-3 rounded-xl font-bold text-[10px] transition shadow-md">نسخ 📋</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // مسابقة الأطفال المطورة بـ 10 أسئلة
+        const quizData = [
+            { q: "من هو النبي الذي ابتلعه الحوت؟", o: ["يونس عليه السلام", "موسى عليه السلام", "عيسى عليه السلام"], a: 0 },
+            { q: "كم عدد أركان الإسلام؟", o: ["3", "4", "5"], a: 2 },
+            { q: "من هو خاتم الأنبياء والمرسلين؟", o: ["إبراهيم عليه السلام", "عيسى عليه السلام", "محمد ﷺ"], a: 2 },
+            { q: "ما هي أطول سورة في القرآن الكريم؟", o: ["آل عمران", "البقرة", "النساء"], a: 1 },
+            { q: "ما هو الكتاب الذي أنزل على سيدنا محمد ﷺ؟", o: ["التوراة", "الإنجيل", "القرآن الكريم"], a: 2 },
+            { q: "كم عدد الصلوات المفروضة في اليوم؟", o: ["3 صلوات", "5 صلوات", "7 صلوات"], a: 1 },
+            { q: "في أي شهر يصوم المسلمون؟", o: ["رجب", "شعبان", "رمضان"], a: 2 },
+            { q: "ما هو أول ركن من أركان الإسلام؟", o: ["الصلاة", "الشهادتان", "الزكاة"], a: 1 },
+            { q: "ما هي القبلة التي يتجه إليها المسلمون في صلاتهم؟", o: ["المسجد الأقصى", "الكعبة المشرفة", "المسجد النبوي"], a: 1 },
+            { q: "من هو النبي الذي بنى السفينة؟", o: ["صالح عليه السلام", "هود عليه السلام", "نوح عليه السلام"], a: 2 }
         ];
 
-        let allSurahs = [];
-        let currentSNum = 1;
+        let currentQ = 0, points = 0;
+
+        function loadQuiz() {
+            const d = quizData[currentQ];
+            document.getElementById('questionText').innerText = d.q;
+            document.getElementById('optionsBox').innerHTML = d.o.map((o, i) => `
+                <div onclick="checkAnswer(${i})" class="p-5 bg-white/50 dark:bg-slate-700/50 rounded-2xl font-black cursor-pointer hover:border-amber-500 border-2 border-transparent transition-all shadow-sm text-lg hover:bg-amber-50 dark:hover:bg-amber-900/20">
+                    ${o}
+                </div>`).join('');
+            document.getElementById('resultBox').classList.add('hidden');
+            document.getElementById('quizBox').classList.remove('hidden');
+        }
+
+        function checkAnswer(i) {
+            const options = document.getElementById('optionsBox').children;
+            if(i === quizData[currentQ].a) {
+                points += 10; 
+                document.getElementById('userPoints').innerText = points;
+                options[i].classList.replace('border-transparent', 'border-green-500');
+                options[i].classList.add('bg-green-100', 'dark:bg-green-900/30');
+                
+                setTimeout(() => {
+                    document.getElementById('quizBox').classList.add('hidden');
+                    document.getElementById('resultBox').classList.remove('hidden');
+                }, 500);
+            } else {
+                options[i].classList.add('animate-pulse', 'border-red-500');
+                alert("حاول مرة أخرى يا بطل! ❌✨");
+            }
+        }
+
+        function nextQuestion() { 
+            currentQ = (currentQ + 1) % quizData.length; 
+            loadQuiz(); 
+        }
+
+        // وظائف المصحف
+        let allSurahs = [], currentSNum = 1;
 
         async function init() {
-            renderHadiths();
+            renderShareMessages();
+            loadQuiz();
             renderAzkar();
-            const res = await fetch('https://api.alquran.cloud/v1/surah');
-            const data = await res.json();
-            allSurahs = data.data;
-            renderSurahs(allSurahs);
-            loadSurah(1, 'الفاتحة');
+            try {
+                const res = await fetch('https://api.alquran.cloud/v1/surah');
+                const data = await res.json();
+                allSurahs = data.data;
+                renderSurahs(allSurahs);
+                loadSurah(1, 'الفاتحة');
+            } catch (e) { console.error("خطأ في جلب السور"); }
         }
 
-        function renderSurahs(list) {
-            document.getElementById('surahList').innerHTML = list.map(s => `
-                <div onclick="loadSurah(${s.number}, '${s.name}')" class="p-3 bg-white/40 dark:bg-slate-800/40 rounded-xl cursor-pointer hover:bg-amber-600 hover:text-white transition-all text-xs font-black border border-amber-500/10">
+        function renderSurahs(l) {
+            document.getElementById('surahList').innerHTML = l.map(s => `
+                <div onclick="loadSurah(${s.number}, '${s.name}')" class="p-3 bg-white/40 dark:bg-slate-800/40 rounded-xl cursor-pointer hover:bg-amber-600 hover:text-white transition-all text-[11px] font-black shadow-sm">
                     ${s.name}
-                </div>
-            `).join('');
+                </div>`).join('');
         }
 
-        async function loadSurah(num, name) {
-            currentSNum = num;
-            document.getElementById('surahTitle').innerText = name.includes('سورة') ? name : `سورة ${name}`;
-            const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}`);
+        async function loadSurah(n, name) {
+            currentSNum = n;
+            document.getElementById('surahTitle').innerText = `سورة ${name}`;
+            const res = await fetch(`https://api.alquran.cloud/v1/surah/${n}`);
             const data = await res.json();
-            document.getElementById('quranContainer').innerHTML = data.data.ayahs.map(a => `
-                <span onclick="openTafsir(${a.numberInSurah})" class="ayah-highlight p-1">
-                    ${a.text} <span class="text-amber-600 opacity-40 mx-1" style="font-size: 0.5em">﴿${a.numberInSurah}﴾</span>
-                </span>
-            `).join(' ');
+            document.getElementById('quranContainer').innerHTML = data.data.ayahs.map(a => `${a.text} <span class="text-amber-600 opacity-40 mx-1" style="font-size: 0.5em">﴿${a.numberInSurah}﴾</span>`).join(' ');
             updateAudio();
-            if(window.innerWidth < 1024) window.scrollTo({top: 250, behavior: 'smooth'});
-        }
-
-        async function openTafsir(ayahNum) {
-            document.getElementById('tafsirModal').classList.replace('hidden', 'flex');
-            document.getElementById('tafsirContent').innerText = "جاري جلب التفسير...";
-            const res = await fetch(`https://api.alquran.cloud/v1/ayah/${currentSNum}:${ayahNum}/ar.jalalayn`);
-            const data = await res.json();
-            document.getElementById('tafsirContent').innerText = data.data.text;
-            document.getElementById('tafsirTitle').innerText = `تفسير الآية (${ayahNum})`;
-        }
-
-        function closeTafsir() { document.getElementById('tafsirModal').classList.replace('flex', 'hidden'); }
-
-        function renderHadiths() {
-            document.getElementById('hadithList').innerHTML = hadiths.map(h => `
-                <div class="glass-card p-8 border-r-8 border-amber-600 shadow-lg">
-                    <p class="text-xl quran-font font-bold mb-4 text-emerald-950 dark:text-amber-500 leading-relaxed">${h.t}</p>
-                    <p class="text-xs opacity-60 italic">${h.e}</p>
-                </div>
-            `).join('');
-        }
-
-        function renderAzkar() {
-            document.getElementById('azkarContainer').innerHTML = azkarList.map(z => `
-                <div class="glass-card p-6 flex justify-between items-center mb-4">
-                    <div>
-                        <span class="text-[8px] bg-amber-600 text-white px-2 py-1 rounded-full mb-2 inline-block font-bold">${z.category}</span>
-                        <p class="text-xs font-black opacity-80">${z.text}</p>
-                    </div>
-                    <button onclick="countDown(this)" class="w-12 h-12 bg-emerald-900 text-white rounded-full font-bold shadow-xl transition-all active:scale-90">${z.count}</button>
-                </div>
-            `).join('');
-        }
-
-        function countDown(btn) {
-            let v = parseInt(btn.innerText);
-            if(v > 1) { btn.innerText = v - 1; if(navigator.vibrate) navigator.vibrate(40); }
-            else { btn.innerText = "✔️"; btn.classList.add('bg-amber-600'); }
         }
 
         function updateAudio() {
-            const server = document.getElementById('readerSelect').value;
             const sNum = currentSNum.toString().padStart(3, '0');
-            document.getElementById('mainAudio').src = `${server}/${sNum}.mp3`;
-            document.getElementById('audioLabel').innerText = `تستمع لـ: ${document.getElementById('surahTitle').innerText}`;
+            document.getElementById('mainAudio').src = `${document.getElementById('readerSelect').value}/${sNum}.mp3`;
+            document.getElementById('audioLabel').innerText = `بث إيماني: سورة ${document.getElementById('surahTitle').innerText}`;
         }
 
-        function countSubha() {
-            let c = parseInt(document.getElementById('subhaCount').innerText) + 1;
-            document.getElementById('subhaCount').innerText = c;
-            if(navigator.vibrate) navigator.vibrate(60);
+        function renderAzkar() {
+            const az = ["سُبْحَانَ اللَّهِ", "أستغفر الله", "الحمد لله", "لا إله إلا الله"];
+            document.getElementById('azkarContainer').innerHTML = az.map(z => `
+                <div class="glass-card p-6 flex justify-between items-center mb-4 hover:shadow-md transition">
+                    <p class="text-lg font-black text-emerald-900 dark:text-slate-200">${z}</p>
+                    <button onclick="let v=parseInt(this.innerText); if(v>0) this.innerText=v-1; else this.innerText='✔️'" class="w-14 h-14 bg-emerald-900 text-white rounded-full font-black text-xl shadow-lg active:scale-95 transition">33</button>
+                </div>`).join('');
         }
 
         function openTab(id, btn) {
@@ -272,10 +284,9 @@
             btn.classList.add('active');
         }
 
-        function toggleDarkMode() { document.getElementById('mainHtml').classList.toggle('dark'); }
         function filterSurahs() {
-            const val = document.getElementById('surahSearch').value;
-            renderSurahs(allSurahs.filter(s => s.name.includes(val)));
+            const v = document.getElementById('surahSearch').value;
+            renderSurahs(allSurahs.filter(s => s.name.includes(v)));
         }
 
         window.onload = init;
